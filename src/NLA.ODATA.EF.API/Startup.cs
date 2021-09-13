@@ -6,13 +6,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using NLA.ODATA.EF.API.Data;
+using NLA.ODATA.EF.API.Models;
 
 namespace NLA.ODATA.EF.API
 {
@@ -33,7 +37,13 @@ namespace NLA.ODATA.EF.API
                         opt.UseNpgsql(Configuration.GetConnectionString("CustomerDBConnection"))
                         );
 
-            services.AddControllers();
+            services.AddControllers()
+                // add OData capability to controllers
+                .AddOData(options => options.Select().Filter().Count().OrderBy().Expand()
+                            .SetMaxTop(100) // enable usage of $top
+                            .AddRouteComponents("odata", GetEdmModel()) // enable OData routing
+                            );
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "NLA.ODATA.EF.API", Version = "v1" });
@@ -62,6 +72,15 @@ namespace NLA.ODATA.EF.API
             {
                 endpoints.MapControllers();
             });
+        }
+
+        // Support OData EDM
+        public static IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
+            modelBuilder.EntitySet<Book>("Books"); // must match BooksController
+            modelBuilder.EntitySet<Author>("Authors"); // must match AuthorsController
+            return modelBuilder.GetEdmModel();
         }
     }
 }
