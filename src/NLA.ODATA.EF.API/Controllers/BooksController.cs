@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.Extensions.Logging;
 using NLA.ODATA.EF.API.Data;
 using NLA.ODATA.EF.API.Models;
@@ -13,7 +14,7 @@ namespace NLA.ODATA.EF.API.Controllers
     // remove web api routing to allow OData routing
     //[ApiController]
     //[Route("[controller]/api")]
-    public class BooksController : ControllerBase
+    public class BooksController : ODataController
     {
         private readonly BooksDBContext _booksDBContext;
         private readonly ILogger<BooksController> _logger;
@@ -31,28 +32,26 @@ namespace NLA.ODATA.EF.API.Controllers
             return Ok(_booksDBContext.Books.AsQueryable());
         }
 
-        //public IActionResult Post([FromBody] Book book)
-        //{
-        //    _booksDBContext.Books.Add(book);
-        //    _booksDBContext.SaveChanges();
-        //    return Created(book);
-        //}
+        public IActionResult Post([FromBody] Book book)
+        {
+            _booksDBContext.Books.Add(book);
+            _booksDBContext.SaveChanges();
+            return Created(book);
+        }
 
 
-        //public IActionResult Put(int key,
-        //[FromBody] Employee emp)
-        //{
-        //    db.Employees.Update(emp);
-        //    db.SaveChanges();
-        //    return NoContent();
-        //}
+        public IActionResult Put([FromBody] Book book)
+        {
+            _booksDBContext.Books.Update(book);
+            _booksDBContext.SaveChanges();
+            return Updated(book);
+        }
 
-        //public IActionResult Delete(int key)
-        //{
-        //    db.Employees.Remove(_db.Employees.
-        //Find(key));
-        //    db.SaveChanges();
-        //    return NoContent();
-        //}
+        public IActionResult Delete([FromBody] Book book)
+        {
+            _booksDBContext.Books.Remove(book);
+            _booksDBContext.SaveChanges();
+            return NoContent();
+        }
     }
 }

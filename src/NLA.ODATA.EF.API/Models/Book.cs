@@ -19,6 +19,8 @@ namespace NLA.ODATA.EF.API.Models
         [Required]
         [MaxLength(100)]
         public string ISBN { get; set; }
+        [ForeignKey("Author")]
+        public int AuthorId { get; set; }
         public Author Author { get; set; }
     }
 }

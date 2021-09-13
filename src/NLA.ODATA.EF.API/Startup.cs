@@ -42,7 +42,8 @@ namespace NLA.ODATA.EF.API
                 .AddOData(options => options.Select().Filter().Count().OrderBy().Expand()
                             .SetMaxTop(100) // enable usage of $top
                             .AddRouteComponents("odata", GetEdmModel()) // enable OData routing
-                            );
+                            )
+                .AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {
