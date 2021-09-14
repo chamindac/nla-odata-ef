@@ -35,16 +35,16 @@ namespace NLA.ODATA.EF.API.Controllers
             return Created(author);
         }
 
-        public IActionResult Put([FromBody] Author author)
+        public IActionResult Put(int key, [FromBody] Author author)
         {
             _booksDBContext.Authors.Update(author);
             _booksDBContext.SaveChanges();
-            return Updated(author);
+            return Ok(author);
         }
 
-        public IActionResult Delete([FromBody] Author author)
+        public IActionResult Delete(int key)
         {
-            _booksDBContext.Authors.Remove(author);
+            _booksDBContext.Authors.Remove(_booksDBContext.Authors.Find(key));
             _booksDBContext.SaveChanges();
             return NoContent();
         }
