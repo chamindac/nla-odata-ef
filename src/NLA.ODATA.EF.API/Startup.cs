@@ -57,7 +57,7 @@ namespace NLA.ODATA.EF.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                
+
             }
 
             app.UseSwagger();
@@ -81,6 +81,10 @@ namespace NLA.ODATA.EF.API
             ODataConventionModelBuilder modelBuilder = new ODataConventionModelBuilder();
             modelBuilder.EntitySet<Book>("Books"); // must match BooksController
             modelBuilder.EntitySet<Author>("Authors"); // must match AuthorsController
+
+            modelBuilder.EntityType<Book>()
+                        .Action("AddRating")
+                        .Parameter<int>("Rating");
             return modelBuilder.GetEdmModel();
         }
     }
