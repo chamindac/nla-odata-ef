@@ -43,7 +43,7 @@ namespace NLA.ODATA.EF.API
                             .SetMaxTop(100) // enable usage of $top
                             .AddRouteComponents("odata", GetEdmModel()) // enable OData routing
                             )
-                .AddNewtonsoftJson();
+                .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             services.AddSwaggerGen(c =>
             {
@@ -85,6 +85,9 @@ namespace NLA.ODATA.EF.API
             modelBuilder.EntityType<Book>()
                         .Action("AddRating")
                         .Parameter<int>("Rating");
+            modelBuilder.EntityType<Book>().Collection
+                .Function("BestSelling")
+                .Returns<Book>();
             return modelBuilder.GetEdmModel();
         }
     }
