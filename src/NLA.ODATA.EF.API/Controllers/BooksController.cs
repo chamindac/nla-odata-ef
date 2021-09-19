@@ -28,5 +28,13 @@ namespace NLA.ODATA.EF.API.Controllers
             Book book = _booksDBContext.Books.Where(b => b.Rating > 0).OrderBy(b => b.Rating).Include(b => b.Author).FirstOrDefault();
             return new JsonResult(book);
         }
+
+        // unbound sample
+        [HttpGet("/odata/GetTotalBookSalesValue(BookCategory={BookCategory})")]
+        public IActionResult GetTotalBookSalesValue([FromODataUri] int BookCategory)
+        {
+            double fakeBookSalesForCategory = 12500.52;
+            return Ok(fakeBookSalesForCategory);
+        }
     }
 }

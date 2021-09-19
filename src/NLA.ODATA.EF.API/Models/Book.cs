@@ -11,6 +11,8 @@ namespace NLA.ODATA.EF.API.Models
     [Index(nameof(ISBN), IsUnique = true)]
     public class Book
     {
+        //updatable, insert only fields how to
+        // uppercase checks
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]

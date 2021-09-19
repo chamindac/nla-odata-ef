@@ -88,6 +88,10 @@ namespace NLA.ODATA.EF.API
             modelBuilder.EntityType<Book>().Collection
                 .Function("BestSelling")
                 .Returns<Book>();
+            modelBuilder
+                .Function("GetTotalBookSalesValue")
+                .Returns<double>()
+                .Parameter<int>("BookCategory");
             return modelBuilder.GetEdmModel();
         }
     }
