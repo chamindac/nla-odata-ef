@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace NLA.ODATA.EF.API.Models
 {
     [Index(nameof(ISBN), IsUnique = true)]
-    public class Book
+    public class Book:BaseEntity
     {
         //updatable, insert only fields how to
         // uppercase checks

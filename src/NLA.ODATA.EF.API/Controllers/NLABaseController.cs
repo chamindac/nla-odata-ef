@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace NLA.ODATA.EF.API.Controllers
 {
-    public class NLABaseController<T,S> : ODataController where T:class where S: ODataController
+    public class NLABaseController<T,S> : ODataController where T:BaseEntity where S: ODataController
     {
         protected readonly BooksDBContext _booksDBContext;
         protected readonly ILogger<S> _logger;
