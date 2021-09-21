@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace NLA.ODATA.EF.API.Migrations
 {
     [DbContext(typeof(BooksDBContext))]
-    [Migration("20210920162701_IntialDB")]
+    [Migration("20210921064407_IntialDB")]
     partial class IntialDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

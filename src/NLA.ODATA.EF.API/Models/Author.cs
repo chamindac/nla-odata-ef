@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NLA.ODATA.EF.API.Models
 {
     [Index(nameof(Email), IsUnique = true)]
-    public class Author: BaseEntity
+    public class Author: BaseEntity<Author>
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

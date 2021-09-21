@@ -9,10 +9,15 @@ using System.Threading.Tasks;
 
 namespace NLA.ODATA.EF.API.Models
 {
-    public class BaseEntity 
+    public class BaseEntity<T> : IEntityTypeConfiguration<T> where T : class
     {
         [ConcurrencyCheck]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public uint xmin { get; set; }
+
+        public void Configure(EntityTypeBuilder<T> builder)
+        {
+            builder.UseXminAsConcurrencyToken();
+        }
     }
 }
