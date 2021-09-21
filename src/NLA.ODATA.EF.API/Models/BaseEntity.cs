@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace NLA.ODATA.EF.API.Models
 {
-    public class BaseEntity<T> : IEntityTypeConfiguration<T> where T : class
+    public class BaseEntity<T> : IEntityTypeConfiguration<T> where T : BaseEntity<T>
     {
         [ConcurrencyCheck]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
