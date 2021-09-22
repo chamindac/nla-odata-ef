@@ -13,8 +13,11 @@ namespace NLA.ODATA.EF.API.Controllers
         public BooksController(ILogger<BooksController> logger, BooksDBContext booksDBContext) : base(logger, booksDBContext) { }
 
         [HttpPost]
-        public JsonResult AddRating([FromODataUri] int key, ODataActionParameters parameters)
+        public IActionResult AddRating([FromODataUri] int key, ODataActionParameters parameters)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             Book book = _booksDBContext.Books.Find(key);
             book.Rating = (int)parameters["Rating"];
             _booksDBContext.Books.Update(book);
@@ -23,7 +26,7 @@ namespace NLA.ODATA.EF.API.Controllers
         }
 
         [HttpGet]
-        public JsonResult BestSelling()
+        public IActionResult BestSelling()
         {
             Book book = _booksDBContext.Books.Where(b => b.Rating > 0).OrderBy(b => b.Rating).Include(b => b.Author).FirstOrDefault();
             return new JsonResult(book);

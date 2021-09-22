@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NLA.ODATA.EF.API.Attributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,6 +21,7 @@ namespace NLA.ODATA.EF.API.Models
         public string Title { get; set; }
         [Required]
         [MaxLength(100)]
+        [Uppercase]
         public string ISBN { get; set; }
         [ForeignKey("Author")]
         public int AuthorId { get; set; }

@@ -32,6 +32,9 @@ namespace NLA.ODATA.EF.API.Controllers
 
         public virtual IActionResult Post([FromBody] T entity)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             dbSet.Add(entity);
             _booksDBContext.SaveChanges();
             return Created(entity);
@@ -40,6 +43,9 @@ namespace NLA.ODATA.EF.API.Controllers
 
         public virtual IActionResult Put(int key, [FromBody] T entity)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             dbSet.Update(entity);
             _booksDBContext.SaveChanges();
             return Ok(entity);

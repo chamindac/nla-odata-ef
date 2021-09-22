@@ -11,6 +11,8 @@ namespace NLA.ODATA.EF.API.Models
 {
     public class BaseEntity<T> : IEntityTypeConfiguration<T> where T : BaseEntity<T>
     {
+
+        //ObjVersion
         [ConcurrencyCheck]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public uint xmin { get; set; }
