@@ -12,22 +12,22 @@ using System.Threading.Tasks;
 
 namespace NLA.ODATA.EF.API.Controllers
 {
-    public class NLABaseController<T,S> : ODataController where T:BaseEntity<T> where S: ODataController
+    public class NLABaseController<T,S,U> : ODataController where T:BaseEntity<T> where S: ODataController where U: DbContext
     {
-        protected readonly BooksDBContext _booksDBContext;
+        protected readonly U _DbContext;
         protected readonly ILogger<S> _logger;
         private readonly DbSet<T> dbSet;
-        public NLABaseController(ILogger<S> logger, BooksDBContext booksDBContext)
+        public NLABaseController(ILogger<S> logger, U DbContext)
         {
             _logger = logger;
-            _booksDBContext = booksDBContext;
-            dbSet = _booksDBContext.Set<T>();
+            _DbContext = DbContext;
+            dbSet = _DbContext.Set<T>();
         }
 
         [EnableQuery]
         public virtual IActionResult Get()
         {
-            return Ok(_booksDBContext.Set<T>().AsQueryable<T>());
+            return Ok(_DbContext.Set<T>().AsQueryable<T>());
         }
 
         public virtual IActionResult Post([FromBody] T entity)
@@ -36,7 +36,7 @@ namespace NLA.ODATA.EF.API.Controllers
                 return BadRequest();
 
             dbSet.Add(entity);
-            _booksDBContext.SaveChanges();
+            _DbContext.SaveChanges();
             return Created(entity);
         }
 
@@ -47,14 +47,14 @@ namespace NLA.ODATA.EF.API.Controllers
                 return BadRequest();
 
             dbSet.Update(entity);
-            _booksDBContext.SaveChanges();
+            _DbContext.SaveChanges();
             return Ok(entity);
         }
 
         public virtual IActionResult Delete(int key)
         {
             dbSet.Remove(dbSet.Find(key));
-            _booksDBContext.SaveChanges();
+            _DbContext.SaveChanges();
             return NoContent();
         }
     }

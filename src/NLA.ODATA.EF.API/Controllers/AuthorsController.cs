@@ -6,7 +6,7 @@ using NLA.ODATA.EF.API.Models;
 
 namespace NLA.ODATA.EF.API.Controllers
 {
-    public class AuthorsController : NLABaseController<Author, AuthorsController>
+    public class AuthorsController : NLABaseController<Author, AuthorsController, BooksDBContext>
     {
 
         public AuthorsController(ILogger<AuthorsController> logger, BooksDBContext booksDBContext) : base(logger, booksDBContext) { }

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace NLA.ODATA.EF.API.Controllers
 {
-    public class BooksController : NLABaseController<Book, BooksController>
+    public class BooksController : NLABaseController<Book, BooksController, BooksDBContext>
     {
         public BooksController(ILogger<BooksController> logger, BooksDBContext booksDBContext) : base(logger, booksDBContext) { }
 
@@ -18,17 +18,17 @@ namespace NLA.ODATA.EF.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            Book book = _booksDBContext.Books.Find(key);
+            Book book = _DbContext.Books.Find(key);
             book.Rating = (int)parameters["Rating"];
-            _booksDBContext.Books.Update(book);
-            _booksDBContext.SaveChanges();
+            _DbContext.Books.Update(book);
+            _DbContext.SaveChanges();
             return new JsonResult(book);
         }
 
         [HttpGet]
         public IActionResult BestSelling()
         {
-            Book book = _booksDBContext.Books.Where(b => b.Rating > 0).OrderBy(b => b.Rating).Include(b => b.Author).FirstOrDefault();
+            Book book = _DbContext.Books.Where(b => b.Rating > 0).OrderBy(b => b.Rating).Include(b => b.Author).FirstOrDefault();
             return new JsonResult(book);
         }
 
