@@ -11,6 +11,12 @@ namespace NLA.ODATA.EF.API.Models
 {
     public class BaseEntity<T> : IEntityTypeConfiguration<T> where T : BaseEntity<T>
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        //[ConcurrencyCheck]
+        //[DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        //public byte[] RowVersion { get; set; }
 
         //ObjVersion
         [ConcurrencyCheck]

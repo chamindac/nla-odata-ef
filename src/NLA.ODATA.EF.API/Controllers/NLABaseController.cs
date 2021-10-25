@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Results;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NLA.ODATA.EF.API.Controllers
 {
-    public class NLABaseController<T,S,U> : ODataController where T:BaseEntity<T> where S: ODataController where U: DbContext
+    public class NLABaseController<T, S, U> : ODataController where T : BaseEntity<T> where S : ODataController where U : DbContext
     {
         protected readonly U _DbContext;
         protected readonly ILogger<S> _logger;
@@ -28,6 +29,19 @@ namespace NLA.ODATA.EF.API.Controllers
         public virtual IActionResult Get()
         {
             return Ok(_DbContext.Set<T>().AsQueryable<T>());
+        }
+
+
+        public virtual IActionResult Get(int key)
+        {
+            var entity = _DbContext.Set<T>().Where(e => e.Id == key);
+
+            if (!entity.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(entity);
         }
 
         public virtual IActionResult Post([FromBody] T entity)

@@ -12,8 +12,8 @@ namespace NLA.ODATA.EF.API.Models
     [Index(nameof(Email), IsUnique = true)]
     public class Author: BaseEntity<Author>
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public int Id { get; set; }
         [Required]
         [MaxLength(200)]
         public string Name { get; set; }

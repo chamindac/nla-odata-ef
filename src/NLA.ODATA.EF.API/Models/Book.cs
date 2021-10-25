@@ -14,8 +14,8 @@ namespace NLA.ODATA.EF.API.Models
     {
         //updatable, insert only fields how to
         // uppercase checks
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        //[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        //public int Id { get; set; }
         [Required]
         [MaxLength(500)]
         public string Title { get; set; }
